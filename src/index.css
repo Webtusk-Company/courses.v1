@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "NoirPro";
+  src: url("./assets/fonts/NoirPro-Regular.woff");
+}
+@font-face {
+  font-family: "NoirPro";
+  font-weight: 800;
+  src: url('./assets/fonts/NoirPro-Bold.woff'); 
+  font-style: normal;
+}
+@font-face {
+  font-family: "NoirPro";
+  src: url("./assets/fonts/NoirPro-SemiBold.woff");
+  font-weight: bold;
+    /* font-style: bold; */
+}
+@font-face {
+  font-family: "NoirPro";
+  src: url('./assets/fonts/NoirPro-Italic.woff');
+  font-style: italic;
+}
+
+.active{
+  width: 100%;
+  background-color: #f9f9fa;
+  border-top-right-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+  padding-inline: 3rem;
+  padding-block: 1rem;
+  border-left-width: 3px;
+  border-color: blue;
+  display: flex;
+  align-items: center;
+}
+.nonactive{
+  width: 100%;
+  border-top-right-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+  padding-inline: 3rem;
+  padding-block: 1rem;
+  display: flex;
+  align-items: center;
+}
