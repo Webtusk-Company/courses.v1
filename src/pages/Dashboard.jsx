@@ -5,10 +5,11 @@ import { BarChart } from "../assets/components/BarChart";
 import { SearchQueryAndFind } from "../assets/components/SearchBar";
 import { SalesFindLine } from "../assets/components/SalesFindLine";
 import { Link } from "react-router-dom";
+import { DashCards1 } from "../assets/components/DashCards1";
 export const Dashboard = () =>{
     return (
         <>
-        <main className="overflow-scroll h-full bg-transparent pl-3 pt-4 pr-3 font-noirpro">
+        <main className="overflow-y-scroll h-full bg-transparent pl-3 pt-4 pr-3 font-noirpro">
             <header className="flex flex-row items-center">
                 <h2 className="text-lg font-medium mr-auto">
                     Home
@@ -44,7 +45,7 @@ export const Dashboard = () =>{
                 </Analysis>
             </section>
             <section className="w-full flex flex-row gap-2 mt-4 font-noirpro">
-                <section className="w-8/12 h-fit bg-white shadow-lg rounded-lg">
+                <section className="w-8/12 h-[23rem] bg-white shadow-lg rounded-lg">
                     <header className="w-full border-b-2 h-16 p-3 flex flex-row items-center">
                         <h2 className="text-[0.9rem] font-semibold capitalize mr-auto">
                             course purchases
@@ -65,7 +66,7 @@ export const Dashboard = () =>{
                         <BarChart></BarChart>
                     </article>
                 </section>
-                <section className="w-4/12 h-fit bg-white shadow-lg rounded-lg">
+                <section className="w-4/12 h-[23rem] bg-white shadow-lg rounded-lg">
                     <header className="w-full border-b-2 h-16 p-3 flex flex-row items-center">
                         <h2 className="text-[0.9rem] font-semibold capitalize mr-auto">
                             My Sales
@@ -76,69 +77,34 @@ export const Dashboard = () =>{
                     </header>
                     <article className="w-full">
                         <SalesFindLine></SalesFindLine>
+                        <SalesFindLine></SalesFindLine>
+                        <SalesFindLine></SalesFindLine>
+                        <SalesFindLine></SalesFindLine>
                     </article>
-                    <footer className="h-16 flex flex-row items-center justify-center border-t-[2px]">
-                        <Link className="text-blue-400">
-                            View More
-                        </Link>
+                    <footer className="h-auto flex flex-row items-center justify-center border-t-[2px]">
+                       
+                       <Link className="text-blue-400 mt-2">
+                        View more
+                       </Link>
                     </footer>
                 </section>
             </section>
-            <section className="w-full">
-                <section className="w-4/12 h-fit bg-white shadow-lg rounded-lg">
-                    <header className="w-full border-b-2 h-16 p-3 flex flex-row items-center">
-                        <h2 className="text-[0.9rem] font-semibold capitalize mr-auto">
-                            My Sales
-                        </h2>
-                        <SearchQueryAndFind
-                        color={"bg-gray-200"}
-                        ></SearchQueryAndFind>
-                    </header>
-                    <article className="w-full">
-                        <SalesFindLine></SalesFindLine>
-                    </article>
-                    <footer className="h-16 flex flex-row items-center justify-center border-t-[2px]">
-                        <Link className="text-blue-400">
-                            View More
-                        </Link>
-                    </footer>
-                </section>
-                <section className="w-4/12 h-fit bg-white shadow-lg rounded-lg">
-                    <header className="w-full border-b-2 h-16 p-3 flex flex-row items-center">
-                        <h2 className="text-[0.9rem] font-semibold capitalize mr-auto">
-                            My Sales
-                        </h2>
-                        <SearchQueryAndFind
-                        color={"bg-gray-200"}
-                        ></SearchQueryAndFind>
-                    </header>
-                    <article className="w-full">
-                        <SalesFindLine></SalesFindLine>
-                    </article>
-                    <footer className="h-16 flex flex-row items-center justify-center border-t-[2px]">
-                        <Link className="text-blue-400">
-                            View More
-                        </Link>
-                    </footer>
-                </section>
-                <section className="w-4/12 h-fit bg-white shadow-lg rounded-lg">
-                    <header className="w-full border-b-2 h-16 p-3 flex flex-row items-center">
-                        <h2 className="text-[0.9rem] font-semibold capitalize mr-auto">
-                            My Sales
-                        </h2>
-                        <SearchQueryAndFind
-                        color={"bg-gray-200"}
-                        ></SearchQueryAndFind>
-                    </header>
-                    <article className="w-full">
-                        <SalesFindLine></SalesFindLine>
-                    </article>
-                    <footer className="h-16 flex flex-row items-center justify-center border-t-[2px]">
-                        <Link className="text-blue-400">
-                            View More
-                        </Link>
-                    </footer>
-                </section>
+            <section className="w-full flex-row flex gap-2 mt-10 mb-10">
+                <DashCards1
+                text={"Your Trending courses"}
+                >
+
+                </DashCards1>
+                <DashCards1
+                text={"course statistics"}
+                >
+
+                </DashCards1>
+                <DashCards1
+                text={"website statistics"}
+                >
+
+                </DashCards1>
             </section>
         </main>
         </>

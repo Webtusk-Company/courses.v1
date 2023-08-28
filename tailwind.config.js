@@ -9,7 +9,8 @@ export default {
     "./src/assets/components/Analysis.jsx",
     "./src/assets/components/BarChart.jsx",
     "./src/assets/components/SearchBar.jsx",
-    "./src/assets/components/SalesFindLine.jsx"
+    "./src/assets/components/SalesFindLine.jsx",
+    "./src/assets/components/DashCards1.jsx"
    
   ],
   theme: {

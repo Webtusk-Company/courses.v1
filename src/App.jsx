@@ -31,6 +31,30 @@ export function App() {
                   Courses
                 </span>
               </NavLink>
+              <NavLink className={({isActive, isPending}) => isActive ? 'active': 'nonactive'} to="/website">
+                <RiHome2Fill></RiHome2Fill>
+                <span className='ml-2'>
+                  Website
+                </span>
+              </NavLink>          
+              <NavLink className={({isActive, isPending}) => isActive ? 'active': 'nonactive'} to="/settings">
+                <RiHome2Fill></RiHome2Fill>
+                <span className='ml-2'>
+                  Settings
+                </span>
+              </NavLink>  
+              <NavLink className={({isActive, isPending}) => isActive ? 'active': 'nonactive'} to="/profile">
+                <RiHome2Fill></RiHome2Fill>
+                <span className='ml-2'>
+                  Profile
+                </span>
+              </NavLink>    
+              <NavLink className={({isActive, isPending}) => isActive ? 'active': 'nonactive'} to="/website">
+                <RiHome2Fill></RiHome2Fill>
+                <span className='ml-2'>
+                 Back to Main Menu
+                </span>
+              </NavLink>  
             </nav>  
           </aside>
           <main className='w-[75%] h-[90vh] bg-[#efefef]'>

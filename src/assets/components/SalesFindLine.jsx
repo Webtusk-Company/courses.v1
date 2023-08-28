@@ -2,9 +2,9 @@
 import { CgFileDocument } from "react-icons/cg";
 import { TiStar } from "react-icons/ti";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md"
-export const SalesFindLine = () =>{
+export const SalesFindLine = ({bottom}) =>{
     return(
-        <div className="w-full bg-white flex flex-row items-center py-4 px-3">
+        <div className={`w-full bg-white flex flex-row items-center py-4 px-3 ${bottom ? "border-b-[2px]" : "" }`}>
             <div className="rounded-full flex flex-row items-center justify-center h-8 w-8 bg-gray-200">
                 <CgFileDocument color="gray"></CgFileDocument>
             </div>
@@ -17,7 +17,7 @@ export const SalesFindLine = () =>{
                 </h4>
             </div>
             <div className="mx-2 flex flex-row items-center">
-                <TiStar size={15}></TiStar>
+                <TiStar color={"gold"} size={15}></TiStar>
                 <span className="text-[0.8rem] ml-1">
                     4.2
                 </span>
