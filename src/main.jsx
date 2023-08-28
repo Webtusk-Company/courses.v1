@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client'
 import {App} from './App.jsx'
 import './index.css'
 import { RouterProvider, createBrowserRouter} from 'react-router-dom';
-import { Dashboard } from './assets/pages/Dashboard.jsx';
-import { Courses } from './assets/pages/Courses.jsx';
+import { Dashboard } from './pages/Dashboard.jsx';
+import { Courses } from './pages/Courses.jsx';
 
 
 const router = createBrowserRouter([

@@ -7,7 +7,7 @@ export function App() {
 
   return (
     <>
-      <main className='w-[100vw] h-[100vh] absolute'>
+      <main className='w-[100vw] h-[100vh] bg-white fixed'>
         <header className='px-8 h-[10vh] bg-white border-b-[2px] '>
           <nav className='flex flex-row h-full items-center p-[1rem]'>
             <span className='w-32 h-full flex flex-col justify-center items-center align-middle'>
@@ -22,7 +22,7 @@ export function App() {
               <NavLink className={({isActive, isPending}) => isActive ? 'active': 'nonactive' } to="/dashboard">
                 <RiHome2Fill></RiHome2Fill> 
                 <span className='ml-2'>
-                  All Courses 
+                  Home
                 </span>
               </NavLink>
               <NavLink className={({isActive, isPending}) => isActive ? 'active': 'nonactive'} to="/courses">

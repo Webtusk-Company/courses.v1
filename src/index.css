@@ -45,3 +45,19 @@
   display: flex;
   align-items: center;
 }
+
+.slant-left{
+  /* position: absolute; */
+  /* top: -30px;
+  left: -30px; */
+  /* right: -30px;
+  bottom: -30px; */
+  -webkit-transform: skew(-200deg);
+  -moz-transform: skew(-20deg);
+  -o-transform: skew(-20deg);
+}
+.slant-right{
+  -webkit-transform: skew(-200deg);
+  -moz-transform: skew(-20deg);
+  -o-transform: skew(-20deg);
+}
