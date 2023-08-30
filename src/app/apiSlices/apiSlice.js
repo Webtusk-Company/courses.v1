@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 export const baseQuery = fetchBaseQuery(
     {
-        baseUrl: "pyapi.webtusk.com"
+        baseUrl: "http://pyapi.tusksite.com:8080/"
     }
 )
 export const generalApiSlice = createApi({

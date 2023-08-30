@@ -1,6 +1,6 @@
 import { generalApiSlice } from "./apiSlice";
 
-const BASE_URL = "/"
+const BASE_URL = "/api/v1/courses"
 
 export const getCoursesSlice = generalApiSlice.injectEndpoints({
     endpoints: (builder) =>(
@@ -13,4 +13,6 @@ export const getCoursesSlice = generalApiSlice.injectEndpoints({
             })
         }
     )
-})
+});
+
+export const {useGetCoursesQuery} = getCoursesSlice;
