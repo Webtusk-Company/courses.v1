@@ -17,6 +17,7 @@ const router = createBrowserRouter([
     element: <App></App>,
     children: [
       {
+        index: true,
         path: "/dashboard",
         element: <Dashboard></Dashboard>
       },
