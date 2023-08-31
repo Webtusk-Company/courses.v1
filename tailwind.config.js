@@ -10,7 +10,11 @@ export default {
     "./src/assets/components/BarChart.jsx",
     "./src/assets/components/SearchBar.jsx",
     "./src/assets/components/SalesFindLine.jsx",
-    "./src/assets/components/DashCards1.jsx"
+    "./src/assets/components/DashCards1.jsx",
+    "./src/assets/components/CourseLine.jsx",
+    "./src/assets/components/CoursesList.jsx",
+    "./src/pages/Courses.jsx",
+    "./src/pages/NewCourse.jsx",
    
   ],
   theme: {

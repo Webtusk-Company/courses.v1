@@ -6,9 +6,12 @@ export const getCoursesSlice = generalApiSlice.injectEndpoints({
     endpoints: (builder) =>(
         {
             getCourses: builder.query({
-                query: ()=>({
+                query: (token)=>({
                     method: "GET",
-                    url: `${BASE_URL}/`
+                    url: `${BASE_URL}/`,
+                    headers:{
+                        Authorization: `Bearer ${token}`
+                    }
                 })
             })
         }
