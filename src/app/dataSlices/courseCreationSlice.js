@@ -11,7 +11,7 @@ let initialState = {
     description: "",
     duration: "",
     has_discount: false,
-    onetime_payment: false,
+    onetime_payment: true,
     recurring_payment: false,
     price: "",
     activation_status: false,
