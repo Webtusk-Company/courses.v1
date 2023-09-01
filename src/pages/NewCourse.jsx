@@ -17,6 +17,8 @@ export const NewCourse = () =>{
     const [formNumber, setFormNumber] = useState(1);
     const [activePaymentBlock, setAPB] = useState("w-[40%] shadow-lg bg-gray-900 text-white flex flex-row items-center justify-center border-gray-400 border-[1px] h-32 rounded" )
 
+    const token = useSelector(state => state.token);
+    console.log(token)
     const [ createCourse, result ] = useCreateNewCourseMutation();
     
 
@@ -138,6 +140,12 @@ export const NewCourse = () =>{
                             </section>
                            
                         )
+                        ||
+                        formNumber == 4 && (
+                            <>
+                            <h2>For files and images</h2>
+                            </>
+                        ) 
                     }
                     <div className="flex flex-row justify-end mt-3">
                         { formNumber > 1 &&
@@ -145,8 +153,8 @@ export const NewCourse = () =>{
                                 Back
                             </Button>
                         }
-                        <Button fn={formNumber == 3 ? () => createCourse(defaultCourse)  : () => setFormNext } color="bg-gray-900 align-end ml-auto">
-                            {formNumber == 3 ? "Submit" : "Next"}
+                        <Button fn={formNumber == 4 ? () => createCourse({defaultCourse,token})  : () => setFormNext() } color="bg-gray-900 align-end ml-auto">
+                            {formNumber == 4 ? "Submit" : "Next"}
                         </Button>
                     </div>
                 </form>

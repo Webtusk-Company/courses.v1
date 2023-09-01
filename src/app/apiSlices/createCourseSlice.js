@@ -5,9 +5,13 @@ const HEAD_URL = "/api/v1/courses"
 export const createNewCourseMutation = generalApiSlice.injectEndpoints({
     endpoints: (builder) =>({
         createNewCourse: builder.mutation({
-            query: (data) =>({
+            query: (value) =>({
                 method: "POST",
-                body: data
+                url: `${HEAD_URL}/`,
+                body: value.defaultCourse,
+                headers: {
+                    Authorization: `Bearer ${value.token}`
+                }
             })
         })
     })

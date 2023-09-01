@@ -4,8 +4,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 let initialState = {
-   
-        id: "",
     title: "",
     vendor: "",
     description: "",

@@ -2,7 +2,9 @@ import { useGetCoursesQuery } from "../app/apiSlices/courseSlices";
 import { useGetAuthTokenMutation} from "../app/apiSlices/authSlice";
 import { CoursesList } from "../assets/components/CoursesList";
 import { useLoaderData } from "react-router-dom";
-import {useState} from "react"
+import {useState} from "react";
+import { useDispatch } from "react-redux";
+import { tokenSet } from "../app/dataSlices/tokenSlice";
 
 export const Courses = () =>{
     const [username, setUserName] = useState("");
@@ -10,6 +12,7 @@ export const Courses = () =>{
     const [ gottenTokenState, setGottenTokenState] = useState(false);
     const [token, setToken] = useState(true)
     const [ createAuthToken, {isLoading}] = useGetAuthTokenMutation();
+    const dispatch= useDispatch();
     const GetMyData = async (data) =>{
         data.preventDefault();
         // console.log(data.target)
@@ -20,8 +23,8 @@ export const Courses = () =>{
             console.log(res);
             if(res.data){
                 setToken(res.data.access);
+                dispatch(tokenSet(res.data.access))
                 setGottenTokenState(true);
-               
             }
         })
         // console.log(response)
