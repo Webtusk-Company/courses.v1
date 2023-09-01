@@ -28,9 +28,9 @@ export const courseCreationSlice = createSlice({
     initialState,
     reducers: {
         updateCourse: (state, action) =>{
-            console.log(action.payload);
-            state = action.payload
-            console.log(state);
+            // console.log(action.payload);
+            // console.log(state)
+            return action.payload
         }
     }
 });
