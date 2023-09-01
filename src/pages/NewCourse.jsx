@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "../assets/components/Kobobutton";
 import { Link } from "react-router-dom"
 import { useCreateNewCourseMutation} from "../app/apiSlices/createCourseSlice";
+import { Currencies } from "../assets/neededfiles/myownneededcurrency"
 export const NewCourse = () =>{
     const defaultCourse = useSelector((state)=> state.courseCreation);
     const dispatch = useDispatch();
@@ -121,6 +122,19 @@ export const NewCourse = () =>{
                                         Recurring Payment
                                     </button>
                                 </div>
+                                <section>
+                                    <header>
+                                        <h2>Price</h2>
+                                    </header>
+                                    <article>
+                                        <select className="focus:outline-none mt-2 mr-3 border-[1px] py-2 px-2 border-gray-200 rounded-md">
+                                            {
+                                                Currencies?.map((x,y) => <option value={x} key={y}>{x.symbol} {x.name}</option>)
+                                            }
+                                        </select>
+                                        <input type="number" name="Price" id="price" onChange={(e) => setCourse("price", e.target.value, defaultCourse)}/>
+                                    </article>
+                                </section>
                             </section>
                            
                         )
