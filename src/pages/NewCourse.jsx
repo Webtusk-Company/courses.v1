@@ -5,7 +5,10 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "../assets/components/Kobobutton";
 import { Link } from "react-router-dom"
 import { useCreateNewCourseMutation} from "../app/apiSlices/createCourseSlice";
-import { Currencies } from "../assets/neededfiles/myownneededcurrency"
+import { Currencies } from "../assets/neededfiles/myownneededcurrency";
+
+
+
 export const NewCourse = () =>{
     const defaultCourse = useSelector((state)=> state.courseCreation);
     const dispatch = useDispatch();
@@ -13,13 +16,17 @@ export const NewCourse = () =>{
     const description = useSelector((state) => state.courseCreation.description);
     const onetime_payment = useSelector((state) => state.courseCreation.onetime_payment);
     const recurring_payment = useSelector((state) => state.courseCreation.recurring_payment);
-    // const ref = useRef();
+    const certificate = useSelector((state) => state.courseCreation.certificate);
+    const course_image = useSelector((state) => state.courseCreation.course_image);
     const [formNumber, setFormNumber] = useState(1);
     const [activePaymentBlock, setAPB] = useState("w-[40%] shadow-lg bg-gray-900 text-white flex flex-row items-center justify-center border-gray-400 border-[1px] h-32 rounded" )
-
     const token = useSelector(state => state.token);
-    console.log(token)
+    const [numberOfTime, setNumberOfTime] = useState(0);
+    const [ time, setTime] = useState("");
     const [ createCourse, result ] = useCreateNewCourseMutation();
+    const [ courseImage, setCourseImage ] = useState("");
+    const [image, setImage] = useState(null);
+    const [ certificateImage, setCertificateImage] = useState();
     
 
    const setFormNext = () =>{
@@ -29,8 +36,9 @@ export const NewCourse = () =>{
    const setFormBack = () =>{
         setFormNumber(formNumber - 1 )
    };
-    const [numberOfTime, setNumberOfTime] = useState(0);
-    const [ time, setTime] = useState("");
+
+
+   
     const setCourse = (type, value, tobj) =>{
         let newObj = {...tobj};
         newObj[type] = value;
@@ -38,7 +46,30 @@ export const NewCourse = () =>{
         dispatch(updateCourse(newObj));
         // setDefaultCourse();
     };
-   
+    
+    const HandleImageGet = (e, tag) => {
+        console.log(e.target.files[0]);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            let base64String = reader.result
+            .replace('data:', '')
+            .replace(/^.+,/, '');
+            if(tag === "course"){
+                setCourseImage(URL.createObjectURL(e.target.files[0]));
+                setCourse("course_image", base64String , defaultCourse);
+                console.log(defaultCourse);
+            }
+            else if(tag === "certificate"){
+                setCertificateImage(URL.createObjectURL(e.target.files[0]));
+                setCourse("certificate", base64String , defaultCourse);
+                console.log(defaultCourse);
+            }
+        };
+        
+        reader.readAsDataURL(e.target.files[0]);
+      
+    }
+
     return (
        <main className="w-[100%] h-[100%] bg-white p-3  rounded-md shadow text-gray-900 font-noirpro">
             <header className="mb-2 flex flex-row justify-between pr-8">
@@ -106,45 +137,74 @@ export const NewCourse = () =>{
                         )
                         ||
                         formNumber == 3 && (
-                            <section>
-                                <header className="w-[100%] flex flex-col p-1 ml-3 mr-8">
-                                    Set Payment Type
-                                </header>
-                                <div className="w-full flex flex-row p-4 justify-around h-fit">
-                                    <button onClick={() => {
-                                        setCourse("recurring_payment", false, defaultCourse);
-                                        setCourse("onetime_payment", true, defaultCourse);
-                                        }} className={ onetime_payment ? activePaymentBlock : "w-[40%] flex flex-row items-center justify-center border-gray-400 border-[1px] h-32 rounded"}>
-                                        One-time payment
-                                    </button>
-                                    <button onClick={() =>{
-                                        setCourse("onetime_payment", true, defaultCourse);
-                                        setCourse("recurring_payment", false, defaultCourse);
-                                    }} className={ recurring_payment ? activePaymentBlock : "w-[40%] flex flex-row items-center justify-center border-gray-400 border-[1px] h-32 rounded" }>
-                                        Recurring Payment
-                                    </button>
-                                </div>
+                            <>
                                 <section>
-                                    <header>
-                                        <h2>Price</h2>
-                                    </header>
-                                    <article>
-                                        <select className="focus:outline-none mt-2 mr-3 border-[1px] py-2 px-2 border-gray-200 rounded-md">
-                                            {
-                                                Currencies?.map((x,y) => <option value={x} key={y}>{x.symbol} {x.name}</option>)
-                                            }
-                                        </select>
-                                        <input type="number" name="Price" id="price" onChange={(e) => setCourse("price", e.target.value, defaultCourse)}/>
-                                    </article>
+                                    <div>
+                                        <label htmlFor="Course Image"> 
+                                            Course Image: 
+                                        </label>
+                                        { course_image ?
+                                         <>
+                                            <img src={courseImage}>
+                                            </img>
+                                         </>
+                                        :
+                                        <input onChange={(e) => HandleImageGet(e, "course")} className="block" type="file">
+
+                                        </input>   
+                                        }
+                                      
+                                    </div>
+                                    <div>
+                                        <label htmlFor="Course Certificate">Course Certificate:</label> 
+                                        {   certificate ? 
+                                        <>
+                                            <img src={certificateImage}>
+                                            </img>
+                                        </>
+                                        :
+                                        <input onChange={(e) => HandleImageGet(e, "certificate")} className="block" type="file">
+                                        </input>
+                                        }
+                                        
+                                    </div>
                                 </section>
-                            </section>
-                           
+                            </>
                         )
                         ||
                         formNumber == 4 && (
-                            <>
-                            <h2>For files and images</h2>
-                            </>
+                            <section>
+                            <header className="w-[100%] flex flex-col p-1 ml-3 mr-8">
+                                Set Payment Type
+                            </header>
+                            <div className="w-full flex flex-row p-4 justify-around h-fit">
+                                <button onClick={() => {
+                                    setCourse("recurring_payment", false, defaultCourse);
+                                    setCourse("onetime_payment", true, defaultCourse);
+                                    }} className={ onetime_payment ? activePaymentBlock : "w-[40%] flex flex-row items-center justify-center border-gray-400 border-[1px] h-32 rounded"}>
+                                    One-time payment
+                                </button>
+                                <button onClick={() =>{
+                                    setCourse("onetime_payment", true, defaultCourse);
+                                    setCourse("recurring_payment", false, defaultCourse);
+                                }} className={ recurring_payment ? activePaymentBlock : "w-[40%] flex flex-row items-center justify-center border-gray-400 border-[1px] h-32 rounded" }>
+                                    Recurring Payment
+                                </button>
+                            </div>
+                            <section>
+                                <header>
+                                    <h2>Price</h2>
+                                </header>
+                                <article>
+                                    <select className="focus:outline-none mt-2 mr-3 border-[1px] py-2 px-2 border-gray-200 rounded-md">
+                                        {
+                                            Currencies?.map((x,y) => <option value={x} key={y}>{x.symbol} {x.name}</option>)
+                                        }
+                                    </select>
+                                    <input type="number" name="Price" id="price" onChange={(e) => setCourse("price", e.target.value, defaultCourse)}/>
+                                </article>
+                            </section>
+                        </section>
                         ) 
                     }
                     <div className="flex flex-row justify-end mt-3">
@@ -153,7 +213,7 @@ export const NewCourse = () =>{
                                 Back
                             </Button>
                         }
-                        <Button fn={formNumber == 4 ? () => createCourse({defaultCourse,token})  : () => setFormNext() } color="bg-gray-900 align-end ml-auto">
+                        <Button fn={formNumber == 4 ? () => {createCourse({defaultCourse,token});}  : () => setFormNext() } color="bg-gray-900 align-end ml-auto">
                             {formNumber == 4 ? "Submit" : "Next"}
                         </Button>
                     </div>

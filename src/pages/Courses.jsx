@@ -20,7 +20,7 @@ export const Courses = () =>{
             username,
             password,
         }).then((res) =>{
-            console.log(res);
+            // console.log(res);
             if(res.data){
                 setToken(res.data.access);
                 dispatch(tokenSet(res.data.access))
@@ -38,6 +38,8 @@ export const Courses = () =>{
                 <form onSubmit={GetMyData}> 
                 <input onChange={(e) => { setUserName(e.target.value)}} value={username} type="text" placeholder="Username" />
                 <input onChange={(e) => {setPassword(e.target.value)}} value={password} type="password" placeholder="lk;asdklfjkl"></input>
+                <input type="file" className="bg-transparent" onChange={(e) => console.log(e.target.files[0])}></input>
+                
                 <button type="submit">
                     Submit
                 </button>

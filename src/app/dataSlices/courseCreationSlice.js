@@ -14,10 +14,10 @@ let initialState = {
     price: "",
     activation_status: false,
     category: [],
-    course_image: "",
+    course_image: null,
     registered_users: [],
-    discount_percentage: "",
-    certificate: "",
+    discount_percentage: 100,
+    certificate: null,
 }
 
 
@@ -26,7 +26,7 @@ export const courseCreationSlice = createSlice({
     initialState,
     reducers: {
         updateCourse: (state, action) =>{
-            // console.log(action.payload);
+            console.log(action.payload);
             // console.log(state)
             return action.payload
         }
