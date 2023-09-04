@@ -9,7 +9,7 @@ let initialState = {
     description: "",
     duration: "",
     has_discount: false,
-    onetime_payment: true,
+    onetime_payment: false,
     recurring_payment: false,
     price: "",
     activation_status: false,
@@ -26,7 +26,7 @@ export const courseCreationSlice = createSlice({
     initialState,
     reducers: {
         updateCourse: (state, action) =>{
-            console.log(action.payload);
+            // console.log(action.payload);
             // console.log(state)
             return action.payload
         }

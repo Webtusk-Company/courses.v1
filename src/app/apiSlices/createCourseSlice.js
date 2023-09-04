@@ -8,7 +8,7 @@ export const createNewCourseMutation = generalApiSlice.injectEndpoints({
             query: (value) =>({
                 method: "POST",
                 url: `${HEAD_URL}/`,
-                body: value.defaultCourse,
+                body: value.formData,
                 headers: {
                     Authorization: `Bearer ${value.token}`
                 }

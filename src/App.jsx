@@ -57,7 +57,7 @@ export function App() {
               </NavLink>  
             </nav>  
           </aside>
-          <main className='w-[75%] h-[90vh] bg-[#efefef]'>
+          <main className='w-[75%] h-[94vh] bg-[#efefef]'>
             <Outlet></Outlet>
           </main>
         </main>

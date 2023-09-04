@@ -31,8 +31,7 @@ export const CoursesList = ({token}) =>{
                 </Link>
             </section>
             <div className="flex flex-row ">
-                <input type="search" placeholder="Search your courses here" className="w-full rounded-md px-2 text-sm shadow-md h-10"></input>
-               
+                <input type="search" placeholder="Search your courses here" className="w-full focus:outline-none rounded-md px-2 text-sm shadow-md h-10"></input>
             </div>
             <section className="mt-6">
                 {

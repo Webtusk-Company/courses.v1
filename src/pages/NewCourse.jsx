@@ -6,6 +6,7 @@ import { Button } from "../assets/components/Kobobutton";
 import { Link } from "react-router-dom"
 import { useCreateNewCourseMutation} from "../app/apiSlices/createCourseSlice";
 import { Currencies } from "../assets/neededfiles/myownneededcurrency";
+// import { create } from "d3";
 
 
 
@@ -16,17 +17,17 @@ export const NewCourse = () =>{
     const description = useSelector((state) => state.courseCreation.description);
     const onetime_payment = useSelector((state) => state.courseCreation.onetime_payment);
     const recurring_payment = useSelector((state) => state.courseCreation.recurring_payment);
-    const certificate = useSelector((state) => state.courseCreation.certificate);
-    const course_image = useSelector((state) => state.courseCreation.course_image);
     const [formNumber, setFormNumber] = useState(1);
-    const [activePaymentBlock, setAPB] = useState("w-[40%] shadow-lg bg-gray-900 text-white flex flex-row items-center justify-center border-gray-400 border-[1px] h-32 rounded" )
     const token = useSelector(state => state.token);
     const [numberOfTime, setNumberOfTime] = useState(0);
     const [ time, setTime] = useState("");
-    const [ createCourse, result ] = useCreateNewCourseMutation();
+    const [ createCourse, result] = useCreateNewCourseMutation();
     const [ courseImage, setCourseImage ] = useState("");
-    const [image, setImage] = useState(null);
+    const[ coImageUrl, setCImageUrl] = useState(null);
     const [ certificateImage, setCertificateImage] = useState();
+    const [ ceImageUrl, setCeImageUrl] = useState(null);
+    const [coursePrice, setCoursePrice] = useState("");
+    const [cashValue, setCashValue] = useState("")
     
 
    const setFormNext = () =>{
@@ -42,37 +43,62 @@ export const NewCourse = () =>{
     const setCourse = (type, value, tobj) =>{
         let newObj = {...tobj};
         newObj[type] = value;
-     
         dispatch(updateCourse(newObj));
+        // console.log(defaultCourse);
         // setDefaultCourse();
     };
     
     const HandleImageGet = (e, tag) => {
         console.log(e.target.files[0]);
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            let base64String = reader.result
-            .replace('data:', '')
-            .replace(/^.+,/, '');
-            if(tag === "course"){
-                setCourseImage(URL.createObjectURL(e.target.files[0]));
-                setCourse("course_image", base64String , defaultCourse);
-                console.log(defaultCourse);
-            }
-            else if(tag === "certificate"){
-                setCertificateImage(URL.createObjectURL(e.target.files[0]));
-                setCourse("certificate", base64String , defaultCourse);
-                console.log(defaultCourse);
-            }
-        };
-        
-        reader.readAsDataURL(e.target.files[0]);
-      
+        if(tag === "course"){
+            let file = e.target.files[0];
+            setCourseImage(file);
+            setCImageUrl(URL.createObjectURL(file))
+        }
+        if(tag === "certificate"){
+            let file = e.target.files[0];
+            setCertificateImage(file);
+            setCeImageUrl(URL.createObjectURL(file));
+        }
     }
 
+    const handleCreateCourse = (course, token) => {
+        // console.log(token)
+        let newCourse = {...course};
+        let formData = new FormData();
+        formData.append("title", newCourse.title);
+        formData.append("vendor", newCourse.vendor);
+        formData.append("description", newCourse.description);
+        formData.append("duration", newCourse.duration);
+        formData.append("has_discount", newCourse.has_discount);
+        formData.append("onetime_payment", newCourse.onetime_payment);
+        formData.append("recurring_payment", newCourse.recurring_payment);
+        formData.append("price", newCourse.price);
+        formData.append('activation_status', newCourse.activation_status);
+        formData.append("category", 1);
+        formData.append("course_image", courseImage);
+        formData.append("registered_users", 1);
+        formData.append("discount_percentage", newCourse.discount_percentage);
+        formData.append("certificate", certificateImage);
+        // console.log(newCourse);
+        createCourse({formData, token});
+    }
+
+    const selectPaymentDuration = (value, target) =>{
+        const course = {...target}
+        if(value === "onetime_payment"){
+            setCourse(value, true, defaultCourse);
+            setCourse("recurring_payment", false, course);
+        }
+        else if(value === "recurring_payment"){
+            setCourse(value, true, defaultCourse);
+            setCourse("onetime_payment", false, course);
+        }
+    }   
+
     return (
-       <main className="w-[100%] h-[100%] bg-white p-3  rounded-md shadow text-gray-900 font-noirpro">
-            <header className="mb-2 flex flex-row justify-between pr-8">
+       <main className="w-[100%] h-[100vh] rounded-md shadow text-gray-900 font-noirpro">
+            <header className="mb-2 w-[100%] flex flex-row justify-between p-6 md:px-16 ">
                 <h2 className="ml-3 text-lg">
                     Create New Course
                 </h2>
@@ -83,142 +109,138 @@ export const NewCourse = () =>{
                 </Link>
               
             </header>
-            <section className='w-full flex flex-row'>
-                <form onSubmit = {(e) => e.preventDefault()} className="w-[55%]">
-                    {
-                        formNumber == 1 && (
-                        <div className="w-[100%] flex flex-col p-1 ml-3 mr-8">
-                            <div className="w-full flex flex-col">
-                                <label htmlFor="Course Title">Course Title</label>
-                                <input onChange={(e) => setCourse("title", e.target.value, defaultCourse)}  type="text" className="focus:outline-none mt-2 border-[1px] py-2 px-2 border-gray-200 rounded-md">
-                                </input>
-                            </div>
-                            <div className="w-full flex flex-col mt-2">
-                                <label htmlFor="Course Description">Course Description</label>
-                                <textarea rows={3} cols={5} onChange={(e) => setCourse("description", e.target.value, defaultCourse)} className="focus:outline-none mt-2 border-[1px] py-2 px-2 border-gray-200 rounded-md">
-                                </textarea>
-                            </div>
-                        </div> 
-                        )
-                        ||
-                        formNumber == 2 && (
-                            <div className="w-[100%] flex flex-col p-1 ml-3 mr-8">
+            <section className='w-[100%] flex flex-row md:px-16'>
+                <section className="w-[55%] p-1 relative overflow-auto">
+                    <form onSubmit = {(e) => e.preventDefault()} className="w-[100%]">
+                        {
+                            formNumber == 1 && (
+                            <div className="w-[100%] flex flex-col p-1 px-3 mr-8">
                                 <div className="w-full flex flex-col">
-                                    <label htmlFor="Course Vendor">Course Vendor</label>
-                                    <input 
-                                    onChange={(e) => setCourse("vendor", e.target.value, defaultCourse)}  
-                                    type="text" className="focus:outline-none mt-2 border-[1px] py-2 px-2 border-gray-200 rounded-md">
+                                    <label htmlFor="Course Title">Course Title</label>
+                                    <input value={title} onChange={(e) => setCourse("title", e.target.value, defaultCourse)}  type="text" className="focus:outline-none mt-2 border-[1px] py-2 px-2 border-gray-200 rounded-md">
                                     </input>
                                 </div>
                                 <div className="w-full flex flex-col mt-2">
-                                    <label htmlFor="Course Duration">Course Duration</label>
-                                    <div className="flex flex-row">
-                                        <select onChange={(e) => setNumberOfTime(e.target.value)} name="--Please Select--" className="focus:outline-none mt-2 mr-3 border-[1px] py-2 px-2 border-gray-200 rounded-md">
-                                            <option value="Days">
-                                                Days
-                                            </option>
-                                            <option value="Weeks">
-                                                Weeks
-                                            </option>
-                                            <option value="Months">
-                                                Months
-                                            </option>
-                                            <option value="Years">
-                                                Years
-                                            </option>
-                                        </select>
-                                       <input onChange={(e) => setTime(e.target.value)} type="number" min={"1"} max={"1000"} className="focus:outline-none mt-2 mr-2 border-[1px] py-2 px-2 border-gray-200 rounded-md">
-                                       </input>
-                                        <input type="text" value={`${time} ${numberOfTime}`}  className="focus:outline-none mt-2 border-[0px] py-2 px-2 border-gray-200 rounded-md">
-                                        </input>
-                                    </div>
+                                    <label htmlFor="Course Description">Course Description</label>
+                                    <textarea value={description} rows={3} cols={5} onChange={(e) => setCourse("description", e.target.value, defaultCourse)} className="focus:outline-none mt-2 border-[1px] py-2 px-2 border-gray-200 rounded-md">
+                                    </textarea>
                                 </div>
                             </div> 
-                        )
-                        ||
-                        formNumber == 3 && (
-                            <>
-                                <section>
-                                    <div>
-                                        <label htmlFor="Course Image"> 
-                                            Course Image: 
-                                        </label>
-                                        { course_image ?
-                                         <>
-                                            <img src={courseImage}>
-                                            </img>
-                                         </>
-                                        :
-                                        <input onChange={(e) => HandleImageGet(e, "course")} className="block" type="file">
-
-                                        </input>   
-                                        }
-                                      
-                                    </div>
-                                    <div>
-                                        <label htmlFor="Course Certificate">Course Certificate:</label> 
-                                        {   certificate ? 
-                                        <>
-                                            <img src={certificateImage}>
-                                            </img>
-                                        </>
-                                        :
-                                        <input onChange={(e) => HandleImageGet(e, "certificate")} className="block" type="file">
+                            )
+                            ||
+                            formNumber == 2 && (
+                                <div className="w-[100%] flex flex-col p-1 px-3 mr-8">
+                                    <div className="w-full flex flex-col mt-2">
+                                        <label htmlFor="Course Duration">Course Duration</label>
+                                        <div className="flex flex-row">
+                                            <select onChange={(e) => setNumberOfTime(e.target.value)} name="--Please Select--" className="focus:outline-none mt-2 mr-3 border-[1px] py-2 px-2 border-gray-200 rounded-md">
+                                                <option value="Days">
+                                                    Days
+                                                </option>
+                                                <option value="Weeks">
+                                                    Weeks
+                                                </option>
+                                                <option value="Months">
+                                                    Months
+                                                </option>
+                                                <option value="Years">
+                                                    Years
+                                                </option>
+                                            </select>
+                                        <input onChange={(e) => setTime(e.target.value)} type="number" min={"1"} max={"1000"} className="focus:outline-none mt-2 mr-2 border-[1px] py-2 px-2 border-gray-200 rounded-md">
                                         </input>
-                                        }
-                                        
+                                            <input type="text" value={`${time} ${numberOfTime}`}  className="focus:outline-none mt-2 border-[0px] py-2 px-2 border-gray-200 rounded-md">
+                                            </input>
+                                        </div>
                                     </div>
-                                </section>
-                            </>
-                        )
-                        ||
-                        formNumber == 4 && (
-                            <section>
-                            <header className="w-[100%] flex flex-col p-1 ml-3 mr-8">
-                                Set Payment Type
-                            </header>
-                            <div className="w-full flex flex-row p-4 justify-around h-fit">
-                                <button onClick={() => {
-                                    setCourse("recurring_payment", false, defaultCourse);
-                                    setCourse("onetime_payment", true, defaultCourse);
-                                    }} className={ onetime_payment ? activePaymentBlock : "w-[40%] flex flex-row items-center justify-center border-gray-400 border-[1px] h-32 rounded"}>
-                                    One-time payment
-                                </button>
-                                <button onClick={() =>{
-                                    setCourse("onetime_payment", true, defaultCourse);
-                                    setCourse("recurring_payment", false, defaultCourse);
-                                }} className={ recurring_payment ? activePaymentBlock : "w-[40%] flex flex-row items-center justify-center border-gray-400 border-[1px] h-32 rounded" }>
-                                    Recurring Payment
-                                </button>
-                            </div>
-                            <section>
-                                <header>
-                                    <h2>Price</h2>
+                                    
+                                    <section>
+                                        <div className="my-4">
+                                            <label htmlFor="Course Image"> 
+                                                Course Image: 
+                                            </label>
+                                            { coImageUrl ?
+                                            <>
+                                                <div className="bg-gray-200 w-full h-40">
+                                                    <img className="object-cover w-[100%] h-[100%]" src={coImageUrl}>
+                                                    </img>
+                                                </div>
+                                            </>
+                                            :
+                                            <input onChange={(e) => HandleImageGet(e, "course")} className="block mt-2" type="file">
+
+                                            </input>   
+                                            }
+                                        
+                                        </div>
+                                        <div className="my-4">
+                                            <label htmlFor="Course Certificate">Course Certificate:</label> 
+                                            {   ceImageUrl ? 
+                                            <>
+                                            <div className="bg-gray-200 w-full h-40">
+                                                <img  className="object-cover w-[100%] h-[100%]" src={ceImageUrl}>
+                                                </img>
+                                            </div>
+                                            </>
+                                            :
+                                            <input onChange={(e) => HandleImageGet(e, "certificate")} className="block mt-2" type="file">
+                                            </input>
+                                            }
+                                            
+                                        </div>
+                                    </section>
+                                </div> 
+                            )
+                            ||
+                            formNumber == 3 && (
+                                <section>
+                                <header className="w-[100%] flex flex-col p-1 px-2 mr-8">
+                                    Set Payment Type
                                 </header>
+                                <div className="w-full flex flex-row p-4 justify-around h-fit">
+                                  <select onChange={(e) => selectPaymentDuration(e.target.value, defaultCourse)} className="w-full p-2">
+                                    <option value="one_timepayment">
+                                        One Time Payment
+                                    </option>
+                                    <option value="Recurring Payment">
+                                        Recurring Payment
+                                    </option>
+                                  </select>
+                                </div>
+                                <section>
+                                    <header>
+                                        <h2>Price</h2>
+                                    </header>
+                                    <article>
+                                        <select onChange={(e) => setCashValue(e.target.value)} className="focus:outline-none mt-2 mr-3 border-[1px] py-2 px-2 border-gray-200 rounded-md">
+                                            {
+                                                Currencies?.map((x,y) => <option value={x.symbol} key={y}>{x.symbol} {x.name}</option>)
+                                            }
+                                        </select>
+                                        <input  className="focus:outline-none mt-2 border-[1px] py-2 px-2 border-gray-200 rounded-md" type="number" name="Price" id="price" onChange={(e) => {setCourse("price", e.target.value, defaultCourse); setCoursePrice(e.target.value)}}/>
+                                    </article>
+                                </section>
                                 <article>
-                                    <select className="focus:outline-none mt-2 mr-3 border-[1px] py-2 px-2 border-gray-200 rounded-md">
-                                        {
-                                            Currencies?.map((x,y) => <option value={x} key={y}>{x.symbol} {x.name}</option>)
-                                        }
-                                    </select>
-                                    <input type="number" name="Price" id="price" onChange={(e) => setCourse("price", e.target.value, defaultCourse)}/>
+                                    <h3>
+                                       
+                                    </h3>
                                 </article>
                             </section>
-                        </section>
-                        ) 
-                    }
-                    <div className="flex flex-row justify-end mt-3">
-                        { formNumber > 1 &&
-                           <Button text={"text-gray-900"} fn={setFormBack} >
-                                Back
-                            </Button>
+                            ) 
                         }
-                        <Button fn={formNumber == 4 ? () => {createCourse({defaultCourse,token});}  : () => setFormNext() } color="bg-gray-900 align-end ml-auto">
-                            {formNumber == 4 ? "Submit" : "Next"}
-                        </Button>
-                    </div>
-                </form>
-                <div className="w-[45%] h-[30rem] relative p-5 mx-4">
+                        <div className="flex flex-row justify-end mt-3">
+                            { formNumber > 1 &&
+                                <Button text={"text-gray-900"} fn={setFormBack} >
+                                    Back
+                                </Button>
+                            }
+                            <Button fn={formNumber == 3 ? () => { handleCreateCourse(defaultCourse, token) }  : () => setFormNext() } color="bg-gray-900 align-end ml-auto">
+                                {formNumber == 3 ? "Submit" : "Next"}
+                            </Button>
+                        </div>
+                    </form>
+                </section>
+                <div className="w-[45%]  h-[100%] p-5 mx-4">
                     <header>
                         <h2>
                             Course Preview
@@ -241,7 +263,6 @@ export const NewCourse = () =>{
                     </section>
                 </div>
             </section>
-           
        </main>
     )
 }
