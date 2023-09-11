@@ -8,36 +8,53 @@ import { Link } from "react-router-dom"
 // import { useState } from "react";
 
 export const CoursesList = ({token}) =>{
-    let {data, isLoading, error} = useGetCoursesQuery(token);
+    let {data, result} = useGetCoursesQuery(token);
     console.log(data)
     // console.log(data)
-    return(
+    return (
       <main className="w-full h-full p-3 font-noirpro">
-            <header className="flex flex-col">
-                <h2>
-                    Welcome back, Onome
-                </h2>
-               
-            </header>
-            <section className="flex flex-row justify-between items-center py-2">
-                <h3>
-                    Your courses
-                </h3>
+        <header className="flex flex-col">
+          <h2>Welcome back, Onome</h2>
+        </header>
+        <section className="flex flex-row justify-between items-center py-2">
+          <h3>Your courses</h3>
+          <Link to={`/courses/createnew/`}>
+            <button className="flex flex-row justify-around items-center  bg-blue-600  text-sm h-8 cursor-pointer w-28 p-2 font-noirpro rounded-lg text-white border-[1px] ">
+              Create New
+              <MdOutlineCreateNewFolder></MdOutlineCreateNewFolder>
+            </button>
+          </Link>
+        </section>
+        <section className="bg-white p-2 rounded-md">
+          <div className="flex flex-row ">
+            <input
+              type="search"
+              placeholder="Search your courses here"
+              className="w-full border-gray-300 border-[1px] focus:outline-none rounded-md px-2 text-sm h-10"
+            ></input>
+          </div>
+          <section className="mt-6">
+            {data?.length === 0 ? (
+              <div className="p-3 flex flex-col items-center justify-center">
+                Oops! You've not created any courses!
                 <Link to={`/courses/createnew/`}>
-                    <button className="flex flex-row justify-around items-center  bg-blue-600  text-sm h-8 cursor-pointer w-28 p-2 font-noirpro rounded-lg text-white border-[1px] ">
-                        Create New
-                        <MdOutlineCreateNewFolder></MdOutlineCreateNewFolder>
-                    </button>
+                  <button className="flex flex-row mt-2 justify-around items-center  bg-blue-600  text-sm h-8 cursor-pointer w-28 p-2 font-noirpro rounded-lg text-white border-[1px] ">
+                    Create New
+                  </button>
                 </Link>
-            </section>
-            <div className="flex flex-row ">
-                <input type="search" placeholder="Search your courses here" className="w-full focus:outline-none rounded-md px-2 text-sm shadow-md h-10"></input>
+              </div>
+            ) 
+            : 
+            result?.isLoading ? 
+            <div>
+                <span className="loader2"></span>
             </div>
-            <section className="mt-6">
-                {
-                    data?.map((x) => <CourseLine key={x.id} sn={x.id} courseName={x.title} courseDiscount={x.discount_percentage} coursePrice={x.price}></CourseLine>)
-                }
-            </section>
+            :
+            (
+              data?.map((x) => <CourseLine data={x} key={x.id}></CourseLine>)
+            )}
+          </section>
+        </section>
       </main>
-    )
+    );
 }

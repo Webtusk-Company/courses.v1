@@ -12,7 +12,8 @@ export const createNewCourseMutation = generalApiSlice.injectEndpoints({
                 headers: {
                     Authorization: `Bearer ${value.token}`
                 }
-            })
+            }),
+            invalidatesTags: ['Courses']
         })
     })
 });

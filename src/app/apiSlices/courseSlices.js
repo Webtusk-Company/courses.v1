@@ -12,7 +12,8 @@ export const getCoursesSlice = generalApiSlice.injectEndpoints({
                     headers:{
                         Authorization: `Bearer ${token}`
                     }
-                })
+                }),
+                providesTags: ["Courses"]
             })
         }
     )

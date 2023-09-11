@@ -18,7 +18,7 @@ export const NewCourse = () =>{
     const onetime_payment = useSelector((state) => state.courseCreation.onetime_payment);
     const recurring_payment = useSelector((state) => state.courseCreation.recurring_payment);
     const [formNumber, setFormNumber] = useState(1);
-    const token = useSelector(state => state.token);
+    const token = import.meta.env.VITE_API_KEY;
     const [numberOfTime, setNumberOfTime] = useState(0);
     const [ time, setTime] = useState("");
     const [ createCourse, result] = useCreateNewCourseMutation();
@@ -103,14 +103,14 @@ export const NewCourse = () =>{
                     Create New Course
                 </h2>
                 <Link to="/courses">
-                    <Button color={"bg-gray-500"}>
+                    <Button color={"bg-red-700"}>
                         Go Back
                     </Button>
                 </Link>
               
             </header>
             <section className='w-[100%] flex flex-row md:px-16'>
-                <section className="w-[55%] p-1 relative overflow-auto">
+                <section className="w-[35%] p-1 relative overflow-auto">
                     <form onSubmit = {(e) => e.preventDefault()} className="w-[100%]">
                         {
                             formNumber == 1 && (
@@ -240,7 +240,7 @@ export const NewCourse = () =>{
                         </div>
                     </form>
                 </section>
-                <div className="w-[45%]  h-[100%] p-5 mx-4">
+                <div className="w-[60%]  h-[100%] p-5 mx-4">
                     <header>
                         <h2>
                             Course Preview

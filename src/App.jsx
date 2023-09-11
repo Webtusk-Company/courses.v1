@@ -17,7 +17,7 @@ export function App() {
           </nav>
         </header>
         <main className='flex flex-row'>
-          <aside className='w-[25%] h-[90vh] bg-white pt-10'>
+          <aside className='w-[15%] h-[90vh] bg-white pt-10'>
             <nav className={"flex flex-col font-noirpro pl-1 mr-10"}>
               <NavLink className={({isActive, isPending}) => isActive ? 'active': 'nonactive' } to="/dashboard">
                 <RiHome2Fill></RiHome2Fill> 
@@ -57,7 +57,7 @@ export function App() {
               </NavLink>  
             </nav>  
           </aside>
-          <main className='w-[75%] h-[94vh] bg-[#efefef]'>
+          <main className='w-[85%] px-4 sm:px-40 lg:px-80 py-4 h-[94vh] bg-[#efefef]'>
             <Outlet></Outlet>
           </main>
         </main>
