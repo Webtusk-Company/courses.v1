@@ -121,3 +121,22 @@
       50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
       75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
   }
+
+  .csc::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  .csc::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  .csc::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  .csc::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

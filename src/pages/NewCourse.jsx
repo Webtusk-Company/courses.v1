@@ -1,11 +1,11 @@
-
 import { useDispatch, useSelector } from "react-redux";
 import { updateCourse } from "../app/dataSlices/courseCreationSlice";
-import { useState, useEffect, useRef } from "react";
+import { useState} from "react";
 import { Button } from "../assets/components/Kobobutton";
-import { Link } from "react-router-dom"
+import { Link, redirect, useNavigate } from "react-router-dom"
 import { useCreateNewCourseMutation} from "../app/apiSlices/createCourseSlice";
 import { Currencies } from "../assets/neededfiles/myownneededcurrency";
+import { ImagePreview } from "../assets/components/ImagePreview";
 // import { create } from "d3";
 
 
@@ -15,8 +15,6 @@ export const NewCourse = () =>{
     const dispatch = useDispatch();
     const title = useSelector((state) => state.courseCreation.title);
     const description = useSelector((state) => state.courseCreation.description);
-    const onetime_payment = useSelector((state) => state.courseCreation.onetime_payment);
-    const recurring_payment = useSelector((state) => state.courseCreation.recurring_payment);
     const [formNumber, setFormNumber] = useState(1);
     const token = import.meta.env.VITE_API_KEY;
     const [numberOfTime, setNumberOfTime] = useState(0);
@@ -28,8 +26,8 @@ export const NewCourse = () =>{
     const [ ceImageUrl, setCeImageUrl] = useState(null);
     const [coursePrice, setCoursePrice] = useState("");
     const [cashValue, setCashValue] = useState("")
-    
-
+    const navigate = useNavigate();
+    const [disabled, setDisabled] = useState(false);
    const setFormNext = () =>{
         setFormNumber(formNumber + 1)
    };
@@ -49,7 +47,7 @@ export const NewCourse = () =>{
     };
     
     const HandleImageGet = (e, tag) => {
-        console.log(e.target.files[0]);
+       
         if(tag === "course"){
             let file = e.target.files[0];
             setCourseImage(file);
@@ -81,7 +79,14 @@ export const NewCourse = () =>{
         formData.append("discount_percentage", newCourse.discount_percentage);
         formData.append("certificate", certificateImage);
         // console.log(newCourse);
-        createCourse({formData, token});
+        setDisabled(true)
+        createCourse({formData, token}).then((res) => {
+            console.log(res);
+            if(res.data){
+                setDisabled(false);
+               navigate("/courses");
+            }
+        });
     }
 
     const selectPaymentDuration = (value, target) =>{
@@ -161,10 +166,9 @@ export const NewCourse = () =>{
                                             </label>
                                             { coImageUrl ?
                                             <>
-                                                <div className="bg-gray-200 w-full h-40">
-                                                    <img className="object-cover w-[100%] h-[100%]" src={coImageUrl}>
-                                                    </img>
-                                                </div>
+                                               <ImagePreview iurl={setCImageUrl} src={coImageUrl}>
+
+                                               </ImagePreview>
                                             </>
                                             :
                                             <input onChange={(e) => HandleImageGet(e, "course")} className="block mt-2" type="file">
@@ -177,10 +181,7 @@ export const NewCourse = () =>{
                                             <label htmlFor="Course Certificate">Course Certificate:</label> 
                                             {   ceImageUrl ? 
                                             <>
-                                            <div className="bg-gray-200 w-full h-40">
-                                                <img  className="object-cover w-[100%] h-[100%]" src={ceImageUrl}>
-                                                </img>
-                                            </div>
+                                                <ImagePreview iurl={setCeImageUrl} src={ceImageUrl}></ImagePreview>
                                             </>
                                             :
                                             <input onChange={(e) => HandleImageGet(e, "certificate")} className="block mt-2" type="file">
@@ -234,8 +235,8 @@ export const NewCourse = () =>{
                                     Back
                                 </Button>
                             }
-                            <Button fn={formNumber == 3 ? () => { handleCreateCourse(defaultCourse, token) }  : () => setFormNext() } color="bg-gray-900 align-end ml-auto">
-                                {formNumber == 3 ? "Submit" : "Next"}
+                            <Button fn={formNumber == 3 ? () => { handleCreateCourse(defaultCourse, token) }  : () => setFormNext() } disabled={disabled} color="bg-gray-900 align-end ml-auto">
+                                {formNumber == 3 ? result?.isLoading ? <div className="loader"></div> : "Submit" : "Next"}
                             </Button>
                         </div>
                     </form>

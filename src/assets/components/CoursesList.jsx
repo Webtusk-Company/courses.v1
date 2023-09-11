@@ -25,14 +25,14 @@ export const CoursesList = ({token}) =>{
             </button>
           </Link>
         </section>
-        <section className="bg-white p-2 rounded-md">
-          <div className="flex flex-row ">
+        <div className="flex w-full mb-3 flex-row">
             <input
               type="search"
               placeholder="Search your courses here"
               className="w-full border-gray-300 border-[1px] focus:outline-none rounded-md px-2 text-sm h-10"
             ></input>
           </div>
+        <section className="bg-white p-2 csc border-gray-300 border-[1px] relative rounded-md overflow-y-auto max-h-[80%]">
           <section className="mt-6">
             {data?.length === 0 ? (
               <div className="p-3 flex flex-col items-center justify-center">
@@ -46,10 +46,11 @@ export const CoursesList = ({token}) =>{
             ) 
             : 
             result?.isLoading ? 
-            <div>
+            <div className="p-3 flex flex-col items-center justify-center w-full h-40">
                 <span className="loader2"></span>
             </div>
             :
+            
             (
               data?.map((x) => <CourseLine data={x} key={x.id}></CourseLine>)
             )}

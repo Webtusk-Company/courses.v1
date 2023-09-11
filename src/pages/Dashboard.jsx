@@ -9,7 +9,7 @@ import { DashCards1 } from "../assets/components/DashCards1";
 export const Dashboard = () =>{
     return (
         <>
-        <main className="overflow-y-scroll h-full bg-transparent pl-3 pt-4 pr-3 font-noirpro">
+        <main className="overflow-y-auto h-full bg-transparent pl-3 pt-4 pr-3 font-noirpro">
             <header className="flex flex-row items-center">
                 <h2 className="text-lg font-medium mr-auto">
                     Home

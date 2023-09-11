@@ -55,7 +55,7 @@ export const CourseLine = ({data}) =>{
                   </button>
                 ) : result.isLoading ? (
                   <button
-                    className="bg-red-700 w-16 px-2 rounded-md"
+                    className="bg-red-700 w-16 px-2 rounded-md flex flex-row items-center"
                     disabled={true}
                   >
                     <span className="loader"></span>

@@ -15,6 +15,7 @@ export default {
     "./src/assets/components/CoursesList.jsx",
     "./src/pages/Courses.jsx",
     "./src/pages/NewCourse.jsx",
+    "./src/assets/components/ImagePreview.jsx"
    
   ],
   theme: {

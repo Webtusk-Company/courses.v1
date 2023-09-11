@@ -49,15 +49,15 @@ export function App() {
                   Profile
                 </span>
               </NavLink>    
-              <NavLink className={({isActive, isPending}) => isActive ? 'active': 'nonactive'} to="/website">
+              {/* <NavLink className={({isActive, isPending}) => isActive ? 'active': 'nonactive'} to="/dashboa">
                 <RiHome2Fill></RiHome2Fill>
                 <span className='ml-2'>
                  Back to Main Menu
                 </span>
-              </NavLink>  
+              </NavLink>   */}
             </nav>  
           </aside>
-          <main className='w-[85%] px-4 sm:px-40 lg:px-80 py-4 h-[94vh] bg-[#efefef]'>
+          <main className='w-[85%] px-4 sm:px-40 md:px-28 2xl:px-80 py-4 h-[94vh] bg-[#efefef]'>
             <Outlet></Outlet>
           </main>
         </main>
