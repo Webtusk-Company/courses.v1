@@ -1,10 +1,20 @@
 import { CoursesList } from "../assets/components/CoursesList";
+import { useEffect, useState } from "react";
+import { useGetAuthTokenMutation } from "../app/apiSlices/authSlice";
+
+
+
 export const Courses = () =>{
-    
-    const token = import.meta.env.VITE_API_KEY;
+    const [getToken] = useGetAuthTokenMutation();
+    // const [ token , setToken] = useState("");
+    //  console.log(token);
     return (
         <>
-         <CoursesList token={token}></CoursesList>
+        {
+        //     token !== "" &&
+        //     <CoursesList token={token}></CoursesList>
+        // 
+        }
         </>
     )
 }
